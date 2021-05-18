@@ -152,11 +152,17 @@
                 return false;
             }
 
-            var bytes = File.ReadAllBytes(current).ToList();
-            var magicBytes = bytes.TakeLast(2).ToArray();
+            using var stream = File.OpenRead(current);
+            stream.Seek(-sizeof(short), SeekOrigin.End);
+            var magicBytes = stream.ReadBytes(sizeof(short));
 
             if (BitConverter.ToInt16(magicBytes, 0) != 0x7ABC)
                 return false;
+            stream.Seek(-(sizeof(short) + sizeof(int)), SeekOrigin.End);
+            var offset = BitConverter.ToInt32(stream.ReadBytes(sizeof(int)));
+            stream.Seek(offset, SeekOrigin.Begin);
+            var bytes = stream.ReadToEnd().SkipLast(sizeof(short) + sizeof(int)).ToList();
+
             bundle = new AssemblyBundle
             {
                 MainModuleBytes = bytes, 
@@ -180,6 +186,30 @@
             Assemblies.Add(IshtarAssembly.LoadFromMemory(mem));
 
             return this;
+        }
+    }
+
+    internal static class FileStreamEx
+    {
+        public static byte[] ReadBytes(this FileStream stream, int count)
+        {
+            Span<byte> bytes = stackalloc byte[count];
+            for (var i = 0; i != count; i++)
+            {
+                var b = stream.ReadByte();
+                if (b == -1)
+                    return new byte[0];
+                bytes[i] = (byte) b;
+            }
+            return bytes.ToArray();
+        }
+
+        public static byte[] ReadToEnd(this FileStream stream)
+        {
+            var count = stream.Length - stream.Position;
+            Span<byte> bytes = stackalloc byte[(int)count];
+            stream.Read(bytes);
+            return bytes.ToArray();
         }
     }
 }

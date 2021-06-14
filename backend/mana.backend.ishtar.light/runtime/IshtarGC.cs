@@ -18,9 +18,11 @@ namespace ishtar
             public static ulong total_allocations;
             public static ulong total_bytes_requested;
             public static ulong alive_objects;
+            public static ulong max_objects;
         }
 
         public static IshtarObject* root;
+        
 
         public static void INIT()
         {
@@ -30,6 +32,7 @@ namespace ishtar
             GCStats.total_bytes_requested += (ulong)sizeof(IshtarObject);
             GCStats.alive_objects++;
             GCStats.total_allocations++;
+            GCStats.max_objects = 8;
             root = p;
         }
 
@@ -50,7 +53,7 @@ namespace ishtar
         }
 
 
-        public static IshtarArray* AllocArray(RuntimeIshtarClass @class, ulong size, byte rank, IshtarObject** node = null, CallFrame frame = null)
+        public static IshtarArray* AllocArray(RuntimeIshtarClass @class, ulong size, byte rank, CallFrame frame = null)
         {
             if (!@class.is_inited)
                 @class.init_vtable();
@@ -76,7 +79,7 @@ namespace ishtar
 
             if (!arr.is_inited) arr.init_vtable();
 
-            var obj = AllocObject(arr, node);
+            var obj = AllocObject(arr);
 
             var arr_obj = (IshtarArray*)Marshal.AllocHGlobal(sizeof(IshtarArray));
 
@@ -114,7 +117,7 @@ namespace ishtar
 
             // fill array block memory
             for (var i = 0UL; i != size; i++)
-                ((void**)obj->vtable[arr.Field["!!value"].vtable_offset])[i] = AllocObject(@class, &obj);
+                ((void**)obj->vtable[arr.Field["!!value"].vtable_offset])[i] = AllocObject(@class);
 
             // exit from critical zone
             IshtarSync.LeaveCriticalSection(ref @class.Owner.Interlocker.INIT_ARRAY_BARRIER);
@@ -124,10 +127,20 @@ namespace ishtar
 
 
 
-        public static IshtarObject* AllocObject(RuntimeIshtarClass @class, IshtarObject** node = null)
+        public static IshtarObject* AllocObject(RuntimeIshtarClass @class)
         {
+            if (GCStats.alive_objects > GCStats.max_objects)
+                Collect();
+
             var p = (IshtarObject*) Marshal.AllocHGlobal(sizeof(IshtarObject));
 
+            if (p is null)
+            {
+                VM.FastFail(WNE.OUT_OF_MEMORY, $"cant allocate new object");
+                VM.ValidateLastError();
+                return null;
+            }
+            
             Unsafe.InitBlock(p, 0, (uint)sizeof(IshtarObject));
 
 
@@ -136,17 +149,16 @@ namespace ishtar
             p->clazz = IshtarUnsafe.AsPointer(ref @class);
             p->vtable_size = (uint)@class.computed_size;
 
+            p->marked = false;
+            p->next = root;
+            root = p;
+
             GCStats.alive_objects++;
             GCStats.total_allocations++;
             GCStats.total_bytes_requested += @class.computed_size * (ulong)sizeof(void*);
             GCStats.total_bytes_requested += (ulong)sizeof(IshtarObject);
 
-            if (node is null || *node is null)
-                fixed (IshtarObject** o = &root)
-                    p->owner = o;
-            else
-                p->owner = node;
-
+            heap.Add(((nint)p)!);
             return p;
         }
         public static void FreeObject(IshtarObject** obj)
@@ -156,6 +168,68 @@ namespace ishtar
             (*obj)->clazz = null;
             Marshal.FreeHGlobal((nint)(*obj));
             GCStats.alive_objects--;
+        }
+
+        public static void FreeObject(IshtarObject* obj)
+        {
+            Marshal.FreeHGlobal(new IntPtr((obj)->vtable));
+            (obj)->vtable = null;
+            (obj)->clazz = null;
+            Marshal.FreeHGlobal((nint)(obj));
+            GCStats.alive_objects--;
+        }
+
+
+        public static void MarkAll()
+        {
+            foreach (var @ref in heap) Mark((IshtarObject*)@ref);
+        }
+
+        public static void Mark(IshtarObject* obj)
+        {
+            if (obj->marked)
+                return;
+            obj->marked = true;
+            if (!obj->flags.HasFlag(GCFlags.PAIR))
+                return;
+            Mark(obj->head);
+            Mark(obj->tail);
+        }
+
+
+        public static void Sweep()
+        {
+            fixed (IshtarObject** temp1 = &root)
+            {
+                IshtarObject** obj = temp1;
+                while (*obj != null)
+                {
+                    if (!(*obj)->marked)
+                    {
+                        /* This object wasn't reached, so remove it from the list
+                           and free it. */
+                        IshtarObject* unreached = *obj;
+
+                        *obj = unreached->next;
+                        FreeObject(unreached);
+                    }
+                    else
+                    {
+                        /* This object was reached, so unmark it (for the next GC)
+                           and move on to the next. */
+                        (*obj)->marked = false;
+                        obj = &(*obj)->next;
+                    }
+                }
+            }
+        }
+
+
+        public static void Collect()
+        {
+            MarkAll();
+            Sweep();
+            GCStats.max_objects = GCStats.alive_objects * 2;
         }
     }
 }

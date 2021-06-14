@@ -4,49 +4,49 @@ namespace ishtar
     using static mana.runtime.ManaTypeCode;
     public static unsafe class IshtarMarshal
     {
-        public static IshtarObject* ToIshtarObject(string str, CallFrame frame = null, IshtarObject** node = null)
+        public static IshtarObject* ToIshtarObject(string str, CallFrame frame = null)
         {
-            var arg = IshtarGC.AllocObject(TYPE_STRING.AsRuntimeClass(), node);
+            var arg = IshtarGC.AllocObject(TYPE_STRING.AsRuntimeClass());
             var clazz = IshtarUnsafe.AsRef<RuntimeIshtarClass>(arg->clazz);
             arg->vtable[clazz.Field["!!value"].vtable_offset] = StringStorage.Intern(str);
             return arg;
         }
-        public static IshtarObject* ToIshtarObject(int dotnet_value, CallFrame frame = null, IshtarObject** node = null)
+        public static IshtarObject* ToIshtarObject(int dotnet_value, CallFrame frame = null)
         {
-            var obj = IshtarGC.AllocObject(TYPE_I4.AsRuntimeClass(), node);
+            var obj = IshtarGC.AllocObject(TYPE_I4.AsRuntimeClass());
             var clazz = IshtarUnsafe.AsRef<RuntimeIshtarClass>(obj->clazz);
             obj->vtable[clazz.Field["!!value"].vtable_offset] = (int*)dotnet_value;
 
             return obj;
         }
 
-        public static IshtarObject* ToIshtarObject(bool dotnet_value, CallFrame frame = null, IshtarObject** node = null)
+        public static IshtarObject* ToIshtarObject(bool dotnet_value, CallFrame frame = null)
         {
-            var obj = IshtarGC.AllocObject(TYPE_BOOLEAN.AsRuntimeClass(), node);
+            var obj = IshtarGC.AllocObject(TYPE_BOOLEAN.AsRuntimeClass());
             var clazz = IshtarUnsafe.AsRef<RuntimeIshtarClass>(obj->clazz);
             obj->vtable[clazz.Field["!!value"].vtable_offset] = (int*)(dotnet_value ? 1 : 0);
 
             return obj;
         }
-        public static IshtarObject* ToIshtarObject(short dotnet_value, CallFrame frame = null, IshtarObject** node = null)
+        public static IshtarObject* ToIshtarObject(short dotnet_value, CallFrame frame = null)
         {
-            var obj = IshtarGC.AllocObject(TYPE_I2.AsRuntimeClass(), node);
+            var obj = IshtarGC.AllocObject(TYPE_I2.AsRuntimeClass());
             var clazz = IshtarUnsafe.AsRef<RuntimeIshtarClass>(obj->clazz);
             obj->vtable[clazz.Field["!!value"].vtable_offset] = (short*)dotnet_value;
 
             return obj;
         }
-        public static IshtarObject* ToIshtarObject(byte dotnet_value, CallFrame frame = null, IshtarObject** node = null)
+        public static IshtarObject* ToIshtarObject(byte dotnet_value, CallFrame frame = null)
         {
-            var obj = IshtarGC.AllocObject(TYPE_I1.AsRuntimeClass(), node);
+            var obj = IshtarGC.AllocObject(TYPE_I1.AsRuntimeClass());
             var clazz = IshtarUnsafe.AsRef<RuntimeIshtarClass>(obj->clazz);
             obj->vtable[clazz.Field["!!value"].vtable_offset] = (int*)dotnet_value;
 
             return obj;
         }
-        public static IshtarObject* ToIshtarObject(long dotnet_value, CallFrame frame = null, IshtarObject** node = null)
+        public static IshtarObject* ToIshtarObject(long dotnet_value, CallFrame frame = null)
         {
-            var obj = IshtarGC.AllocObject(TYPE_I8.AsRuntimeClass(), node);
+            var obj = IshtarGC.AllocObject(TYPE_I8.AsRuntimeClass());
             var clazz = IshtarUnsafe.AsRef<RuntimeIshtarClass>(obj->clazz);
             obj->vtable[clazz.Field["!!value"].vtable_offset] = (long*)dotnet_value;
 
@@ -203,7 +203,7 @@ namespace ishtar
             }
 
             var clazz = p->type.AsRuntimeClass();
-            var obj = IshtarGC.AllocObject(clazz, node);
+            var obj = IshtarGC.AllocObject(clazz);
 
             FFI.StaticValidateField(frame, &obj, "!!value");
 

@@ -10,7 +10,18 @@ namespace ishtar
 
         public uint vtable_size;
 
-        public IshtarObject** owner;
+
+        #region GC
+
+        public IshtarObject* head;
+        public IshtarObject* tail;
+
+        public IshtarObject* next;
+
+        public bool marked;
+
+        #endregion
+        
 
         public RuntimeIshtarClass DecodeClass()
         {

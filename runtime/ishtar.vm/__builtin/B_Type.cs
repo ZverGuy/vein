@@ -10,8 +10,8 @@ public static unsafe class B_Type
     {
         var arg1 = args[0];
 
-        FFI.StaticValidate(current, &arg1);
-        FFI.StaticTypeOf(current, &arg1, VeinTypeCode.TYPE_STRING);
+        InternalFFI.StaticValidate(current, &arg1);
+        InternalFFI.StaticTypeOf(current, &arg1, VeinTypeCode.TYPE_STRING);
 
         var name = IshtarMarshal.ToDotnetString(arg1, current);
 
@@ -41,9 +41,9 @@ public static unsafe class B_Type
         var arg1 = args[0];
         var arg2 = args[1];
 
-        FFI.StaticValidate(current, &arg1);
-        FFI.StaticValidate(current, &arg2);
-        FFI.StaticTypeOf(current, &arg2, VeinTypeCode.TYPE_STRING);
+        InternalFFI.StaticValidate(current, &arg1);
+        InternalFFI.StaticValidate(current, &arg2);
+        InternalFFI.StaticTypeOf(current, &arg2, VeinTypeCode.TYPE_STRING);
 
         current.ThrowException(KnowTypes.PlatformIsNotSupportFault(current));
 

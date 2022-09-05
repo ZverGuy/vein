@@ -21,7 +21,7 @@ namespace ishtar
 
         public static string GetString(StrRef* p, CallFrame frame)
         {
-            FFI.StaticValidate(p, frame);
+            InternalFFI.StaticValidate(p, frame);
             if (!storage_l.ContainsKey((ulong)p))
             {
                 VM.FastFail(WNE.ACCESS_VIOLATION, "Pointer incorrect.", frame);

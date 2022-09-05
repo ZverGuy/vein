@@ -28,9 +28,9 @@ namespace ishtar
         {
             var exitCode = args[0];
 
-            FFI.StaticValidate(current, &exitCode);
-            FFI.StaticTypeOf(current, &exitCode, TYPE_I4);
-            FFI.StaticValidateField(current, &exitCode, "!!value");
+            InternalFFI.StaticValidate(current, &exitCode);
+            InternalFFI.StaticTypeOf(current, &exitCode, TYPE_I4);
+            InternalFFI.StaticValidateField(current, &exitCode, "!!value");
 
             VM.halt(IshtarMarshal.ToDotnetInt32(exitCode, current));
 
@@ -44,13 +44,13 @@ namespace ishtar
             var key = args[0];
             var value = args[1];
 
-            FFI.StaticValidate(current, &key);
-            FFI.StaticTypeOf(current, &key, TYPE_STRING);
-            FFI.StaticValidate(current, &value);
-            FFI.StaticTypeOf(current, &value, TYPE_BOOLEAN);
+            InternalFFI.StaticValidate(current, &key);
+            InternalFFI.StaticTypeOf(current, &key, TYPE_STRING);
+            InternalFFI.StaticValidate(current, &value);
+            InternalFFI.StaticTypeOf(current, &value, TYPE_BOOLEAN);
 
-            FFI.StaticValidateField(current, &key, "!!value");
-            FFI.StaticValidateField(current, &value, "!!value");
+            InternalFFI.StaticValidateField(current, &key, "!!value");
+            InternalFFI.StaticValidateField(current, &value, "!!value");
 
             var clr_key = IshtarMarshal.ToDotnetString(key, current);
             var clr_value = IshtarMarshal.ToDotnetBoolean(value, current);

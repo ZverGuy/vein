@@ -355,12 +355,12 @@ namespace ishtar
                     return;
                 }
 
-                FFI.LinkExternalNativeLibrary(importTarget, importFn, method);
+                InternalFFI.LinkExternalNativeLibrary(importTarget, importFn, method);
             }
         }
         private static void LinkInternalNative(string name, RuntimeIshtarMethod method)
         {
-            var m = FFI.GetMethod(name);
+            var m = InternalFFI.GetMethod(name);
 
             if (m is null)
             {

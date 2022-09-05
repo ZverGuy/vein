@@ -46,11 +46,11 @@ namespace ishtar
             var template_obj = args[0];
             var array_obj = args[1];
 
-            FFI.StaticValidate(frame, &template_obj);
-            FFI.StaticValidate(frame, &array_obj);
+            InternalFFI.StaticValidate(frame, &template_obj);
+            InternalFFI.StaticValidate(frame, &array_obj);
 
-            FFI.StaticTypeOf(frame, &template_obj, TYPE_STRING);
-            FFI.StaticTypeOf(frame, &array_obj, TYPE_ARRAY);
+            InternalFFI.StaticTypeOf(frame, &template_obj, TYPE_STRING);
+            InternalFFI.StaticTypeOf(frame, &array_obj, TYPE_ARRAY);
 
 
             var arr = (IshtarArray*)array_obj;
@@ -77,10 +77,10 @@ namespace ishtar
             var i_str1 = args[0];
             var i_str2 = args[1];
 
-            FFI.StaticValidate(frame, &i_str1);
-            FFI.StaticValidate(frame, &i_str2);
-            FFI.StaticTypeOf(frame, &i_str1, TYPE_STRING);
-            FFI.StaticTypeOf(frame, &i_str2, TYPE_STRING);
+            InternalFFI.StaticValidate(frame, &i_str1);
+            InternalFFI.StaticValidate(frame, &i_str2);
+            InternalFFI.StaticTypeOf(frame, &i_str1, TYPE_STRING);
+            InternalFFI.StaticTypeOf(frame, &i_str2, TYPE_STRING);
 
 
             var str1 = IshtarMarshal.ToDotnetString(i_str1, frame);
@@ -99,10 +99,10 @@ namespace ishtar
             var i_str1 = args[0];
             var i_str2 = args[1];
 
-            FFI.StaticValidate(frame, &i_str1);
-            FFI.StaticValidate(frame, &i_str2);
-            FFI.StaticTypeOf(frame, &i_str1, TYPE_STRING);
-            FFI.StaticTypeOf(frame, &i_str2, TYPE_STRING);
+            InternalFFI.StaticValidate(frame, &i_str1);
+            InternalFFI.StaticValidate(frame, &i_str2);
+            InternalFFI.StaticTypeOf(frame, &i_str1, TYPE_STRING);
+            InternalFFI.StaticTypeOf(frame, &i_str2, TYPE_STRING);
 
 
             var str1 = IshtarMarshal.ToDotnetString(i_str1, frame);
@@ -120,10 +120,10 @@ namespace ishtar
             var i_str1 = args[0];
             var i_str2 = args[1];
 
-            FFI.StaticValidate(frame, &i_str1);
-            FFI.StaticValidate(frame, &i_str2);
-            FFI.StaticTypeOf(frame, &i_str1, TYPE_STRING);
-            FFI.StaticTypeOf(frame, &i_str2, TYPE_STRING);
+            InternalFFI.StaticValidate(frame, &i_str1);
+            InternalFFI.StaticValidate(frame, &i_str2);
+            InternalFFI.StaticTypeOf(frame, &i_str1, TYPE_STRING);
+            InternalFFI.StaticTypeOf(frame, &i_str2, TYPE_STRING);
 
             var str1 = IshtarMarshal.ToDotnetString(i_str1, frame);
             var str2 = IshtarMarshal.ToDotnetString(i_str2, frame);
@@ -136,8 +136,8 @@ namespace ishtar
         public static IshtarObject* TemplateFunctionApply(CallFrame frame, IshtarObject** args, Func<string, string> apply)
         {
             var str1 = args[0];
-            FFI.StaticValidate(frame, &str1);
-            FFI.StaticTypeOf(frame, &str1, TYPE_STRING);
+            InternalFFI.StaticValidate(frame, &str1);
+            InternalFFI.StaticTypeOf(frame, &str1, TYPE_STRING);
 
             var clr_str = IshtarMarshal.ToDotnetString(str1, frame);
 

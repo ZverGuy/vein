@@ -7,7 +7,7 @@ public static class Commands
     {
         if (!HasFlag(SysFlag.DISPLAY_FFI_MAPPING)) return;
 
-        foreach (var (key, value) in FFI.method_table)
+        foreach (var (key, value) in InternalFFI.method_table)
             print($"ffi map '{key}' -> 'sys::FFI/{value.Name}'");
     }
 

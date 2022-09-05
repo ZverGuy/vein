@@ -13,10 +13,10 @@ public static unsafe class B_File
         var raw = args[0];
 
 
-        FFI.StaticValidate(current, &raw);
-        FFI.StaticTypeOf(current, &raw, TYPE_STRING);
+        InternalFFI.StaticValidate(current, &raw);
+        InternalFFI.StaticTypeOf(current, &raw, TYPE_STRING);
 
-        FFI.StaticValidateField(current, &raw, "!!value");
+        InternalFFI.StaticValidateField(current, &raw, "!!value");
 
         var path = IshtarMarshal.ToDotnetString(raw, current);
 

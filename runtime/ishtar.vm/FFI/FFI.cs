@@ -6,7 +6,7 @@ using ishtar.runtime.vin;
     using System.Runtime.InteropServices;
     using vein.runtime;
 
-    public static unsafe class FFI
+    public static unsafe class InternalFFI
     {
         public static Dictionary<string, RuntimeIshtarMethod> method_table { get; } = new();
 

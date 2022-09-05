@@ -16,7 +16,7 @@ public unsafe static class B_StringBuilder
         var @class_1 = arg1->decodeClass();
         var @class_2 = arg2->decodeClass();
 
-        FFI.StaticValidate(current, &arg1);
+        InternalFFI.StaticValidate(current, &arg1);
 
         var buffer = (ImmortalObject<StringBuilder>*)arg1->vtable[@class_1.Field["!!buffer"].vtable_offset];
 
@@ -35,8 +35,8 @@ public unsafe static class B_StringBuilder
         var @class_1 = arg1->decodeClass();
         var @class_2 = arg2->decodeClass();
 
-        FFI.StaticValidate(current, &arg1);
-        FFI.StaticValidate(current, &arg2);
+        InternalFFI.StaticValidate(current, &arg1);
+        InternalFFI.StaticValidate(current, &arg2);
 
         var buffer = (ImmortalObject<StringBuilder>*)arg1->vtable[@class_1.Field["!!buffer"].vtable_offset];
 
@@ -51,7 +51,7 @@ public unsafe static class B_StringBuilder
     {
         var arg1 = args[0];
         var @class_1 = arg1->decodeClass();
-        FFI.StaticValidate(current, &arg1);
+        InternalFFI.StaticValidate(current, &arg1);
         arg1->vtable[@class_1.Field["!!buffer"].vtable_offset] =
             IshtarGC.AllocImmortal<StringBuilder>();
         return null;
@@ -63,7 +63,7 @@ public unsafe static class B_StringBuilder
     {
         var arg1 = args[0];
         var @class_1 = arg1->decodeClass();
-        FFI.StaticValidate(current, &arg1);
+        InternalFFI.StaticValidate(current, &arg1);
         var buffer = (ImmortalObject<StringBuilder>*)arg1->vtable[@class_1.Field["!!buffer"].vtable_offset];
         buffer->Value.Clear();
         IshtarGC.FreeImmortal(buffer);
@@ -76,7 +76,7 @@ public unsafe static class B_StringBuilder
     {
         var arg1 = args[0];
         var @class_1 = arg1->decodeClass();
-        FFI.StaticValidate(current, &arg1);
+        InternalFFI.StaticValidate(current, &arg1);
         var buffer = (ImmortalObject<StringBuilder>*)arg1->vtable[@class_1.Field["!!buffer"].vtable_offset];
         return IshtarMarshal.ToIshtarObject(buffer->Value.ToString(), current);
     }

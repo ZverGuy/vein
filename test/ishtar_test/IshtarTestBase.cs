@@ -150,7 +150,7 @@ namespace ishtar_test
                 {
                     VeinCore.Init();
                     IshtarGC.INIT();
-                    FFI.INIT();
+                    InternalFFI.INIT();
                     _corlib = LoadCorLib();
                     IshtarCore.INIT_ADDITIONAL_MAPPING();
                     foreach (var @class in VeinCore.All.OfType<RuntimeIshtarClass>())

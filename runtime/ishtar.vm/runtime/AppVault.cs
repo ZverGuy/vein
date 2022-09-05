@@ -11,7 +11,7 @@ namespace ishtar
     public class AppVault : AppVaultSync
     {
         public static AppVault CurrentVault { get; internal set; } = new("app");
-        public DirectoryInfo WorkDirecotry { get; set; } = new DirectoryInfo("./");
+        public DirectoryInfo WorkDirectory { get; set; } = new DirectoryInfo("./");
 
         public string Name { get; }
         protected virtual AssemblyResolver Resolver { get; set; }
@@ -76,10 +76,10 @@ namespace ishtar
 
         private void ReadDependencyMetadata()
         {
-            if (!WorkDirecotry.File("dependency.links").Exists)
+            if (!WorkDirectory.File("dependency.links").Exists)
                 return;
 
-            foreach (var line in File.ReadAllLines(WorkDirecotry.File("dependency.links").FullName)
+            foreach (var line in File.ReadAllLines(WorkDirectory.File("dependency.links").FullName)
                          .Select(x => new DirectoryInfo(x))
                          .Where(x => x.Exists))
                 Resolver.AddSearchPath(line);

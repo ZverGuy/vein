@@ -1,14 +1,13 @@
-namespace ishtar
+namespace ishtar;
+
+using System;
+
+[AttributeUsage(AttributeTargets.Method)]
+[ExcludeFromCodeCoverage]
+public class IshtarExportAttribute : Attribute
 {
-    using System;
-
-    [AttributeUsage(AttributeTargets.Method)]
-    [ExcludeFromCodeCoverage]
-    public class IshtarExportAttribute : Attribute
+    public IshtarExportAttribute(int argLen, string name)
     {
-        public IshtarExportAttribute(int argLen, string name)
-        {
 
-        }
     }
 }

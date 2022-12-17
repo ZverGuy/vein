@@ -1,12 +1,11 @@
-namespace vein.fs
+namespace vein.fs;
+
+using System;
+
+public class ImageSegmentNotFoundException : Exception
 {
-    using System;
-
-    public class ImageSegmentNotFoundException : Exception
+    public ImageSegmentNotFoundException(string message) : base(message)
     {
-        public ImageSegmentNotFoundException(string message) : base(message)
-        {
 
-        }
     }
 }

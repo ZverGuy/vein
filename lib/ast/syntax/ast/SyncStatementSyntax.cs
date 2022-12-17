@@ -1,14 +1,13 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System.Collections.Generic;
+
+public class SyncStatementSyntax : StatementSyntax
 {
-    using System.Collections.Generic;
+    public override SyntaxType Kind => SyntaxType.GCDeclaration;
 
-    public class SyncStatementSyntax : StatementSyntax
-    {
-        public override SyntaxType Kind => SyntaxType.GCDeclaration;
+    public override IEnumerable<BaseSyntax> ChildNodes => NoChildren;
 
-        public override IEnumerable<BaseSyntax> ChildNodes => NoChildren;
-
-        public bool IsAuto { get; set; }
-        public bool IsControl { get; set; }
-    }
+    public bool IsAuto { get; set; }
+    public bool IsControl { get; set; }
 }

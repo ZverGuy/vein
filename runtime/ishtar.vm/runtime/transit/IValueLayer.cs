@@ -1,7 +1,6 @@
-namespace ishtar
+namespace ishtar;
+
+public interface IValueLayer<X>
 {
-    public interface IValueLayer<X>
-    {
-        X MarshaledValue { get; set; }
-    }
+    X MarshaledValue { get; set; }
 }

@@ -1,4 +1,3 @@
-namespace ishtar
-{
-    public struct StrRef { }
-}
+namespace ishtar;
+
+public struct StrRef { }

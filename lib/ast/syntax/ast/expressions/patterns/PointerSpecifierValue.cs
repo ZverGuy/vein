@@ -1,15 +1,14 @@
-namespace vein.syntax
-{
-    using Sprache;
+namespace vein.syntax;
 
-    public class PointerSpecifierValue : ExpressionSettingSyntax, IPositionAware<PointerSpecifierValue>
+using Sprache;
+
+public class PointerSpecifierValue : ExpressionSettingSyntax, IPositionAware<PointerSpecifierValue>
+{
+    public PointerSpecifierValue(bool value) => this.HasPointer = value;
+    public bool HasPointer { get; set; }
+    public new PointerSpecifierValue SetPos(Position startPos, int length)
     {
-        public PointerSpecifierValue(bool value) => this.HasPointer = value;
-        public bool HasPointer { get; set; }
-        public new PointerSpecifierValue SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+        base.SetPos(startPos, length);
+        return this;
     }
 }

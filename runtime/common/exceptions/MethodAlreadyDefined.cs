@@ -1,19 +1,18 @@
-namespace vein.exceptions
+namespace vein.exceptions;
+
+using System;
+
+public class MethodAlreadyDefined : Exception
 {
-    using System;
-
-    public class MethodAlreadyDefined : Exception
+    public MethodAlreadyDefined(string msg) : base(msg)
     {
-        public MethodAlreadyDefined(string msg) : base(msg)
-        {
 
-        }
     }
-    public class FieldAlreadyDefined : Exception
+}
+public class FieldAlreadyDefined : Exception
+{
+    public FieldAlreadyDefined(string msg) : base(msg)
     {
-        public FieldAlreadyDefined(string msg) : base(msg)
-        {
 
-        }
     }
 }

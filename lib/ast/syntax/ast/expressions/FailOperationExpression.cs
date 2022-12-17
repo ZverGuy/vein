@@ -1,17 +1,16 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using Sprache;
+
+public class FailOperationExpression : UnaryExpressionSyntax, IPositionAware<FailOperationExpression>
 {
-    using Sprache;
+    public FailOperationExpression(ExpressionSyntax expression) => this.Operand = expression;
 
-    public class FailOperationExpression : UnaryExpressionSyntax, IPositionAware<FailOperationExpression>
+    public override SyntaxType Kind => SyntaxType.FailStatement;
+
+    public new FailOperationExpression SetPos(Position startPos, int length)
     {
-        public FailOperationExpression(ExpressionSyntax expression) => this.Operand = expression;
-
-        public override SyntaxType Kind => SyntaxType.FailStatement;
-
-        public new FailOperationExpression SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+        base.SetPos(startPos, length);
+        return this;
     }
 }

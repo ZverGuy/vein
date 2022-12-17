@@ -1,36 +1,35 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System.Collections.Generic;
+using System.Linq;
+
+public class EnumMemberDeclarationSyntax : MemberDeclarationSyntax
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    public class EnumMemberDeclarationSyntax : MemberDeclarationSyntax
+    public EnumMemberDeclarationSyntax(MemberDeclarationSyntax heading = null)
+        : base(heading)
     {
-        public EnumMemberDeclarationSyntax(MemberDeclarationSyntax heading = null)
-            : base(heading)
-        {
-        }
-
-        public override SyntaxType Kind => SyntaxType.EnumMember;
-
-        public IdentifierExpression Identifier { get; set; }
     }
 
-    public class EnumDeclarationSyntax : MemberDeclarationSyntax
+    public override SyntaxType Kind => SyntaxType.EnumMember;
+
+    public IdentifierExpression Identifier { get; set; }
+}
+
+public class EnumDeclarationSyntax : MemberDeclarationSyntax
+{
+    public EnumDeclarationSyntax(MemberDeclarationSyntax heading = null)
+        : base(heading)
     {
-        public EnumDeclarationSyntax(MemberDeclarationSyntax heading = null)
-            : base(heading)
-        {
-        }
-
-        public override SyntaxType Kind => SyntaxType.Enum;
-
-        public override IEnumerable<BaseSyntax> ChildNodes =>
-            base.ChildNodes.Concat(Members).Where(n => n != null);
-
-        public IdentifierExpression Identifier { get; set; }
-
-        public List<EnumMemberDeclarationSyntax> Members { get; set; } = new();
-
-        public List<string> InnerComments { get; set; } = new();
     }
+
+    public override SyntaxType Kind => SyntaxType.Enum;
+
+    public override IEnumerable<BaseSyntax> ChildNodes =>
+        base.ChildNodes.Concat(Members).Where(n => n != null);
+
+    public IdentifierExpression Identifier { get; set; }
+
+    public List<EnumMemberDeclarationSyntax> Members { get; set; } = new();
+
+    public List<string> InnerComments { get; set; } = new();
 }

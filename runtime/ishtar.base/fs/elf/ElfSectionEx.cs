@@ -1,17 +1,16 @@
-namespace vein.fs
-{
-    using System.IO;
+namespace vein.fs;
 
-    public static class ElfSectionEx
+using System.IO;
+
+public static class ElfSectionEx
+{
+    public static byte[] ReadFrom(this BinaryTools.Elf.ElfSection section, Stream stream)
     {
-        public static byte[] ReadFrom(this BinaryTools.Elf.ElfSection section, Stream stream)
-        {
-            var pos = stream.Position;
-            stream.Seek((int)section.Offset, SeekOrigin.Begin);
-            var arr = new byte[section.Size];
-            stream.Read(arr);
-            stream.Seek(pos, SeekOrigin.Begin);
-            return arr;
-        }
+        var pos = stream.Position;
+        stream.Seek((int)section.Offset, SeekOrigin.Begin);
+        var arr = new byte[section.Size];
+        stream.Read(arr);
+        stream.Seek(pos, SeekOrigin.Begin);
+        return arr;
     }
 }

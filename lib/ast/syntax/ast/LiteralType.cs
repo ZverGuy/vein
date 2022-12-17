@@ -1,10 +1,9 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+public enum LiteralType
 {
-    public enum LiteralType
-    {
-        Null,
-        Boolean,
-        Numeric,
-        String,
-    }
+    Null,
+    Boolean,
+    Numeric,
+    String,
 }

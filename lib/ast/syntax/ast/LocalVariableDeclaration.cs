@@ -1,22 +1,21 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using Sprache;
+
+public class LocalVariableDeclaration : StatementSyntax, IPositionAware<LocalVariableDeclaration>
 {
-    using Sprache;
+    public readonly IdentifierExpression Identifier;
+    public readonly IOption<ExpressionSyntax> Body;
 
-    public class LocalVariableDeclaration : StatementSyntax, IPositionAware<LocalVariableDeclaration>
+    public LocalVariableDeclaration(IdentifierExpression id, IOption<ExpressionSyntax> body)
     {
-        public readonly IdentifierExpression Identifier;
-        public readonly IOption<ExpressionSyntax> Body;
+        Identifier = id;
+        Body = body;
+    }
 
-        public LocalVariableDeclaration(IdentifierExpression id, IOption<ExpressionSyntax> body)
-        {
-            Identifier = id;
-            Body = body;
-        }
-
-        public new LocalVariableDeclaration SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+    public new LocalVariableDeclaration SetPos(Position startPos, int length)
+    {
+        base.SetPos(startPos, length);
+        return this;
     }
 }

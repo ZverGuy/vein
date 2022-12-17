@@ -1,26 +1,25 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System.Collections.Generic;
+using Sprache;
+
+public class AspectDeclarationSyntax : MemberDeclarationSyntax, IAdvancedPositionAware<AspectDeclarationSyntax>
 {
-    using System.Collections.Generic;
-    using Sprache;
+    public static readonly string GET_USAGES_METHOD_NAME = "getUsages";
 
-    public class AspectDeclarationSyntax : MemberDeclarationSyntax, IAdvancedPositionAware<AspectDeclarationSyntax>
+    public List<ParameterSyntax> Args { get; set; } = new();
+    public IdentifierExpression Identifier { get; set; }
+
+    public new AspectDeclarationSyntax SetPos(Position startPos, int length)
     {
-        public static readonly string GET_USAGES_METHOD_NAME = "getUsages";
+        base.SetPos(startPos, length);
+        return this;
+    }
 
-        public List<ParameterSyntax> Args { get; set; } = new();
-        public IdentifierExpression Identifier { get; set; }
-
-        public new AspectDeclarationSyntax SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
-
-        public AspectDeclarationSyntax WithHead(MemberDeclarationSyntax head)
-        {
-            Aspects.AddRange(head.Aspects);
-            Modifiers.AddRange(head.Modifiers);
-            return this;
-        }
+    public AspectDeclarationSyntax WithHead(MemberDeclarationSyntax head)
+    {
+        Aspects.AddRange(head.Aspects);
+        Modifiers.AddRange(head.Modifiers);
+        return this;
     }
 }

@@ -1,19 +1,18 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System;
+using Sprache;
+
+public class AnonFunctionSignatureExpression : ExpressionSyntax, IPositionAware<AnonFunctionSignatureExpression>
 {
-    using System;
-    using Sprache;
+    public AnonFunctionSignatureExpression() => Params = Array.Empty<ParameterSyntax>();
+    public AnonFunctionSignatureExpression(ParameterSyntax[] p) => Params = p;
 
-    public class AnonFunctionSignatureExpression : ExpressionSyntax, IPositionAware<AnonFunctionSignatureExpression>
+    public ParameterSyntax[] Params { get; set; }
+
+    public new AnonFunctionSignatureExpression SetPos(Position startPos, int length)
     {
-        public AnonFunctionSignatureExpression() => Params = Array.Empty<ParameterSyntax>();
-        public AnonFunctionSignatureExpression(ParameterSyntax[] p) => Params = p;
-
-        public ParameterSyntax[] Params { get; set; }
-
-        public new AnonFunctionSignatureExpression SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+        base.SetPos(startPos, length);
+        return this;
     }
 }

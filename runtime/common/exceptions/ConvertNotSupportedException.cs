@@ -1,14 +1,13 @@
-namespace vein.exceptions
+namespace vein.exceptions;
+
+using System;
+using runtime;
+
+public class ConvertNotSupportedException : Exception
 {
-    using System;
-    using runtime;
+    public ConvertNotSupportedException(VeinTypeCode typeCode)
+        : base($"Cannot get converted, '{typeCode}' is not supported.") { }
 
-    public class ConvertNotSupportedException : Exception
-    {
-        public ConvertNotSupportedException(VeinTypeCode typeCode)
-            : base($"Cannot get converted, '{typeCode}' is not supported.") { }
-
-        public ConvertNotSupportedException(VeinField field)
-            : base($"Cannot get converted, '{field.FullName}' with '{field.FieldType.FullName.NameWithNS}' type is not supported.") { }
-    }
+    public ConvertNotSupportedException(VeinField field)
+        : base($"Cannot get converted, '{field.FullName}' with '{field.FieldType.FullName.NameWithNS}' type is not supported.") { }
 }

@@ -1,9 +1,8 @@
-namespace vein.exceptions
-{
-    using System;
+namespace vein.exceptions;
 
-    public class IncompleteClassNameException : Exception
-    {
-        public IncompleteClassNameException(string msg) : base(msg) { }
-    }
+using System;
+
+public class IncompleteClassNameException : Exception
+{
+    public IncompleteClassNameException(string msg) : base(msg) { }
 }

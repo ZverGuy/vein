@@ -1,9 +1,8 @@
-namespace vein.fs.elf
+namespace vein.fs.elf;
+
+public enum ElfDataType : byte
 {
-    public enum ElfDataType : byte
-    {
-        None = 0,
-        Lsb = 1,
-        Msb = 2
-    }
+    None = 0,
+    Lsb = 1,
+    Msb = 2
 }

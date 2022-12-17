@@ -1,6 +1,5 @@
-namespace vein.runtime
-{
-    using System;
+namespace vein.runtime;
 
-    public class InterfaceCantContainsCtorException : Exception { }
-}
+using System;
+
+public class InterfaceCantContainsCtorException : Exception { }

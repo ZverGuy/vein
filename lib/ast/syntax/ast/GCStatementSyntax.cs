@@ -1,23 +1,22 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System.Collections.Generic;
+
+public class GCStatementSyntax : StatementSyntax
 {
-    using System.Collections.Generic;
+    public override SyntaxType Kind => SyntaxType.GCDeclaration;
 
-    public class GCStatementSyntax : StatementSyntax
+    public override IEnumerable<BaseSyntax> ChildNodes
     {
-        public override SyntaxType Kind => SyntaxType.GCDeclaration;
-
-        public override IEnumerable<BaseSyntax> ChildNodes
+        get
         {
-            get
-            {
-                if (IsAuto || IsNoControl)
-                    return NoChildren;
-                return GetNodes(Body);
-            }
+            if (IsAuto || IsNoControl)
+                return NoChildren;
+            return GetNodes(Body);
         }
-
-        public bool IsAuto { get; set; }
-        public bool IsNoControl { get; set; }
-        public BlockSyntax Body { get; set; }
     }
+
+    public bool IsAuto { get; set; }
+    public bool IsNoControl { get; set; }
+    public BlockSyntax Body { get; set; }
 }

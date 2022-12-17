@@ -1,27 +1,26 @@
-namespace vein.fs.elf
+namespace vein.fs.elf;
+
+public struct ElfSection
 {
-    public struct ElfSection
-    {
 
-        public uint Name;
+    public uint Name;
 
-        public ElfSectionType Type;
+    public ElfSectionType Type;
 
-        public ElfSectionFlags Flags;
+    public ElfSectionFlags Flags;
 
-        public uint Address;
+    public uint Address;
 
-        public uint Offset;
+    public uint Offset;
 
-        public uint Size;
+    public uint Size;
 
-        public uint Link;
+    public uint Link;
 
-        public uint Info;
+    public uint Info;
 
-        public uint Align;
+    public uint Align;
 
-        public uint EntrySize;
+    public uint EntrySize;
 
-    }
 }

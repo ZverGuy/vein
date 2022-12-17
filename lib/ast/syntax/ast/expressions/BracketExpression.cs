@@ -1,21 +1,20 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using Sprache;
+
+public class BracketExpression : ExpressionSyntax, IPositionAware<BracketExpression>
 {
-    using Sprache;
+    public NullableExpressionValue Nullable { get; set; }
+    public IndexerArgument[] Arguments { get; set; }
 
-    public class BracketExpression : ExpressionSyntax, IPositionAware<BracketExpression>
+    public BracketExpression(IOption<NullableExpressionValue> nullable, IndexerArgument[] args)
     {
-        public NullableExpressionValue Nullable { get; set; }
-        public IndexerArgument[] Arguments { get; set; }
-
-        public BracketExpression(IOption<NullableExpressionValue> nullable, IndexerArgument[] args)
-        {
-            this.Nullable = nullable.GetOrElse(new NullableExpressionValue(false));
-            this.Arguments = args;
-        }
-        public new BracketExpression SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+        this.Nullable = nullable.GetOrElse(new NullableExpressionValue(false));
+        this.Arguments = args;
+    }
+    public new BracketExpression SetPos(Position startPos, int length)
+    {
+        base.SetPos(startPos, length);
+        return this;
     }
 }

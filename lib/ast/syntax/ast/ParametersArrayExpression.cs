@@ -1,19 +1,18 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System.Collections.Generic;
+using System.Linq;
+using extensions;
+using Sprache;
+
+public class ParametersArrayExpression : ExpressionSyntax, IPositionAware<ParametersArrayExpression>
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using extensions;
-    using Sprache;
+    public ExpressionSyntax[] FillArgs { get; }
+    public ParametersArrayExpression(IEnumerable<ExpressionSyntax> fillArgs) => FillArgs = fillArgs.EmptyIfNull().TrimNull().ToArray();
 
-    public class ParametersArrayExpression : ExpressionSyntax, IPositionAware<ParametersArrayExpression>
+    public new ParametersArrayExpression SetPos(Position startPos, int length)
     {
-        public ExpressionSyntax[] FillArgs { get; }
-        public ParametersArrayExpression(IEnumerable<ExpressionSyntax> fillArgs) => FillArgs = fillArgs.EmptyIfNull().TrimNull().ToArray();
-
-        public new ParametersArrayExpression SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+        base.SetPos(startPos, length);
+        return this;
     }
 }

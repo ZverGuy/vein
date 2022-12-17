@@ -1,33 +1,32 @@
-namespace ishtar
+namespace ishtar;
+
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+public static unsafe class StringStorage
 {
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
+    internal static readonly Dictionary<string, ulong> storage_r = new();
+    internal static readonly Dictionary<ulong, string> storage_l = new();
 
-    public static unsafe class StringStorage
+    public static StrRef* Intern(string value)
     {
-        internal static readonly Dictionary<string, ulong> storage_r = new();
-        internal static readonly Dictionary<ulong, string> storage_l = new();
+        if (storage_r.ContainsKey(value))
+            return (StrRef*)storage_r[value];
+        var p = (ulong)storage_r.Count + 1;
+        storage_r.Add(value, p);
+        storage_l.Add(p, value);
+        return (StrRef*)p;
+    }
 
-        public static StrRef* Intern(string value)
+    public static string GetString(StrRef* p, CallFrame frame)
+    {
+        InternalFFI.StaticValidate(p, frame);
+        if (!storage_l.ContainsKey((ulong)p))
         {
-            if (storage_r.ContainsKey(value))
-                return (StrRef*)storage_r[value];
-            var p = (ulong)storage_r.Count + 1;
-            storage_r.Add(value, p);
-            storage_l.Add(p, value);
-            return (StrRef*)p;
+            VM.FastFail(WNE.ACCESS_VIOLATION, "Pointer incorrect.", frame);
+            return null;
         }
-
-        public static string GetString(StrRef* p, CallFrame frame)
-        {
-            InternalFFI.StaticValidate(p, frame);
-            if (!storage_l.ContainsKey((ulong)p))
-            {
-                VM.FastFail(WNE.ACCESS_VIOLATION, "Pointer incorrect.", frame);
-                return null;
-            }
-            return storage_l[(ulong)p];
-        }
+        return storage_l[(ulong)p];
     }
 }

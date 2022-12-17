@@ -1,23 +1,22 @@
-namespace vein.fs.elf
+namespace vein.fs.elf;
+
+public struct ElfSegment
 {
-    public struct ElfSegment
-    {
 
-        public ElfSegmentType Type;
+    public ElfSegmentType Type;
 
-        public uint Offset;
+    public uint Offset;
 
-        public uint VirtualAddress;
+    public uint VirtualAddress;
 
-        public uint PhysicalAddress;
+    public uint PhysicalAddress;
 
-        public uint FileSize;
+    public uint FileSize;
 
-        public uint MemorySize;
+    public uint MemorySize;
 
-        public ElfSegmentFlags Flags;
+    public ElfSegmentFlags Flags;
 
-        public uint Align;
+    public uint Align;
 
-    }
 }

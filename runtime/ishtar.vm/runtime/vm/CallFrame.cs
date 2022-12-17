@@ -1,81 +1,80 @@
-namespace ishtar
+namespace ishtar;
+
+using System.Runtime.CompilerServices;
+using System.Text;
+
+public unsafe class CallFrame
 {
-    using System.Runtime.CompilerServices;
-    using System.Text;
+    public CallFrame parent;
+    public RuntimeIshtarMethod method;
+    public stackval* returnValue;
+    public stackval* args;
+    public stackval* stack;
+    public OpCodeValue last_ip;
+    public int level;
 
-    public unsafe class CallFrame
+    public CallFrameException exception;
+
+
+    public void assert(bool conditional, [CallerArgumentExpression("conditional")] string msg = default)
     {
-        public CallFrame parent;
-        public RuntimeIshtarMethod method;
-        public stackval* returnValue;
-        public stackval* args;
-        public stackval* stack;
-        public OpCodeValue last_ip;
-        public int level;
+        if (conditional)
+            return;
+        VM.FastFail(WNE.STATE_CORRUPT, $"Static assert failed: '{msg}'", this);
+    }
+    public void assert(bool conditional, WNE type, [CallerArgumentExpression("conditional")] string msg = default)
+    {
+        if (conditional)
+            return;
+        VM.FastFail(type, $"Static assert failed: '{msg}'", this);
+    }
 
-        public CallFrameException exception;
 
-
-        public void assert(bool conditional, [CallerArgumentExpression("conditional")] string msg = default)
+    public void ThrowException(RuntimeIshtarClass @class) =>
+        this.exception = new CallFrameException()
         {
-            if (conditional)
-                return;
-            VM.FastFail(WNE.STATE_CORRUPT, $"Static assert failed: '{msg}'", this);
-        }
-        public void assert(bool conditional, WNE type, [CallerArgumentExpression("conditional")] string msg = default)
+            value = IshtarGC.AllocObject(@class)
+        };
+
+    public void ThrowException(RuntimeIshtarClass @class, string message)
+    {
+        this.exception = new CallFrameException()
         {
-            if (conditional)
-                return;
-            VM.FastFail(type, $"Static assert failed: '{msg}'", this);
-        }
+            value = IshtarGC.AllocObject(@class)
+        };
+
+        if (@class.FindField("message") is null)
+            throw new InvalidOperationException($"Class '{@class.FullName}' is not contained 'message' field.");
+
+        this.exception.value->vtable[@class.Field["message"].vtable_offset]
+            = IshtarMarshal.ToIshtarObject(message);
+    }
 
 
-        public void ThrowException(RuntimeIshtarClass @class) =>
-            this.exception = new CallFrameException()
-            {
-                value = IshtarGC.AllocObject(@class)
-            };
+    public static void FillStackTrace(CallFrame frame)
+    {
+        var str = new StringBuilder();
 
-        public void ThrowException(RuntimeIshtarClass @class, string message)
+        if (frame is null)
         {
-            this.exception = new CallFrameException()
-            {
-                value = IshtarGC.AllocObject(@class)
-            };
-
-            if (@class.FindField("message") is null)
-                throw new InvalidOperationException($"Class '{@class.FullName}' is not contained 'message' field.");
-
-            this.exception.value->vtable[@class.Field["message"].vtable_offset]
-                = IshtarMarshal.ToIshtarObject(message);
+            Console.WriteLine($"<<DETECTED NULL FRAME>>");
+            return;
         }
 
+        if (frame.method.Owner is not null)
+            str.AppendLine($"\tat {frame.method.Owner.FullName.NameWithNS}.{frame.method.Name}");
+        else
+            str.AppendLine($"\tat <sys>.{frame.method.Name}");
 
-        public static void FillStackTrace(CallFrame frame)
+        var r = frame.parent;
+
+        while (r != null)
         {
-            var str = new StringBuilder();
-
-            if (frame is null)
-            {
-                Console.WriteLine($"<<DETECTED NULL FRAME>>");
-                return;
-            }
-
-            if (frame.method.Owner is not null)
-                str.AppendLine($"\tat {frame.method.Owner.FullName.NameWithNS}.{frame.method.Name}");
-            else
-                str.AppendLine($"\tat <sys>.{frame.method.Name}");
-
-            var r = frame.parent;
-
-            while (r != null)
-            {
-                str.AppendLine($"\tat {r.method.Owner.FullName.NameWithNS}.{r.method.Name}");
-                r = r.parent;
-            }
-
-            frame.exception ??= new CallFrameException();
-            frame.exception.stack_trace = str.ToString();
+            str.AppendLine($"\tat {r.method.Owner.FullName.NameWithNS}.{r.method.Name}");
+            r = r.parent;
         }
+
+        frame.exception ??= new CallFrameException();
+        frame.exception.stack_trace = str.ToString();
     }
 }

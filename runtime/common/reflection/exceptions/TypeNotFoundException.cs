@@ -1,9 +1,8 @@
-namespace vein.runtime
-{
-    using System;
+namespace vein.runtime;
 
-    public class TypeNotFoundException : Exception
-    {
-        public TypeNotFoundException(string msg) : base(msg) { }
-    }
+using System;
+
+public class TypeNotFoundException : Exception
+{
+    public TypeNotFoundException(string msg) : base(msg) { }
 }

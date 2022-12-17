@@ -1,13 +1,12 @@
-namespace vein.syntax
-{
-    using Sprache;
+namespace vein.syntax;
 
-    public class InvalidBinaryExpressionSyntax : BinaryExpressionSyntax, IPositionAware<BinaryExpressionSyntax>
+using Sprache;
+
+public class InvalidBinaryExpressionSyntax : BinaryExpressionSyntax, IPositionAware<BinaryExpressionSyntax>
+{
+    public new InvalidBinaryExpressionSyntax SetPos(Position startPos, int length)
     {
-        public new InvalidBinaryExpressionSyntax SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+        base.SetPos(startPos, length);
+        return this;
     }
 }

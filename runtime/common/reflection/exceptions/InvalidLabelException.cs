@@ -1,12 +1,11 @@
-namespace vein.runtime
+namespace vein.runtime;
+
+using System;
+
+public class InvalidLabelException : Exception
 {
-    using System;
-
-    public class InvalidLabelException : Exception
+    public InvalidLabelException() : base("Incorrect label position.")
     {
-        public InvalidLabelException() : base("Incorrect label position.")
-        {
 
-        }
     }
 }

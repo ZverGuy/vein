@@ -1,41 +1,40 @@
-namespace ishtar
+namespace ishtar;
+
+using System.Threading;
+public class TokenInterlocker
 {
-    using System.Threading;
-    public class TokenInterlocker
+    private readonly AppVault _vault;
+    private readonly AppVaultSync _guarder;
+
+    public TokenInterlocker(AppVault vault, AppVaultSync guarder)
     {
-        private readonly AppVault _vault;
-        private readonly AppVaultSync _guarder;
+        _vault = vault;
+        _guarder = guarder;
+    }
 
-        public TokenInterlocker(AppVault vault, AppVaultSync guarder)
+    public ushort GrantModuleID()
+    {
+        Interlocked.MemoryBarrier();
+        lock (_guarder.TokenInterlockerGuard)
         {
-            _vault = vault;
-            _guarder = guarder;
+            return Increment(ref _vault.LastModuleID);
         }
+    }
 
-        public ushort GrantModuleID()
+    public ushort GrantClassID()
+    {
+        Interlocked.MemoryBarrier();
+        lock (_guarder.TokenInterlockerGuard)
         {
-            Interlocked.MemoryBarrier();
-            lock (_guarder.TokenInterlockerGuard)
-            {
-                return Increment(ref _vault.LastModuleID);
-            }
+            return Increment(ref _vault.LastClassID);
         }
+    }
 
-        public ushort GrantClassID()
+    private static unsafe ushort Increment(ref ushort location)
+    {
+        fixed (ushort* ptr = &location)
         {
-            Interlocked.MemoryBarrier();
-            lock (_guarder.TokenInterlockerGuard)
-            {
-                return Increment(ref _vault.LastClassID);
-            }
-        }
-
-        private static unsafe ushort Increment(ref ushort location)
-        {
-            fixed (ushort* ptr = &location)
-            {
-                return (ushort)Interlocked.Increment(ref *(int*)ptr);
-            }
+            return (ushort)Interlocked.Increment(ref *(int*)ptr);
         }
     }
 }

@@ -1,8 +1,7 @@
-namespace vein.runtime
+namespace vein.runtime;
+
+public interface IBaker
 {
-    public interface IBaker
-    {
-        byte[] BakeByteArray();
-        string BakeDebugString();
-    }
+    byte[] BakeByteArray();
+    string BakeDebugString();
 }

@@ -1,10 +1,9 @@
-namespace vein.runtime.emit
+namespace vein.runtime.emit;
+
+public enum ControlChain
 {
-    public enum ControlChain
-    {
-        None,
-        Next1,
-        Next2,
-        Next3,
-    }
+    None,
+    Next1,
+    Next2,
+    Next3,
 }

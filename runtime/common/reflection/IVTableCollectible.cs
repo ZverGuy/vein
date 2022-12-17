@@ -1,8 +1,7 @@
-namespace vein.reflection
-{
-    public interface IVTableCollectible
-    {
+namespace vein.reflection;
 
-        void init_vtable();
-    }
+public interface IVTableCollectible
+{
+
+    void init_vtable();
 }

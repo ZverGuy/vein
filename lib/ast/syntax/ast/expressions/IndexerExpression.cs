@@ -1,22 +1,21 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System.Collections.Generic;
+using System.Linq;
+using extensions;
+using Sprache;
+
+public class IndexerExpression : ExpressionSyntax, IPositionAware<IndexerExpression>
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using extensions;
-    using Sprache;
+    private readonly ExpressionSyntax[] _exps;
 
-    public class IndexerExpression : ExpressionSyntax, IPositionAware<IndexerExpression>
+    public IndexerExpression(IEnumerable<ExpressionSyntax> exps) => _exps = exps.ToArray();
+
+    public override IEnumerable<BaseSyntax> ChildNodes => GetNodes(_exps.OfExactType<BaseSyntax>().ToArray());
+
+    public new IndexerExpression SetPos(Position startPos, int length)
     {
-        private readonly ExpressionSyntax[] _exps;
-
-        public IndexerExpression(IEnumerable<ExpressionSyntax> exps) => _exps = exps.ToArray();
-
-        public override IEnumerable<BaseSyntax> ChildNodes => GetNodes(_exps.OfExactType<BaseSyntax>().ToArray());
-
-        public new IndexerExpression SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+        base.SetPos(startPos, length);
+        return this;
     }
 }

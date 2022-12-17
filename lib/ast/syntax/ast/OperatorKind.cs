@@ -1,7 +1,6 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+public enum OperatorKind
 {
-    public enum OperatorKind
-    {
-        Access
-    }
+    Access
 }

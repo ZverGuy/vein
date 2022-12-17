@@ -1,20 +1,19 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System.Linq;
+using Sprache;
+using stl;
+
+public class FullMethodInvocationExpression : ExpressionSyntax, IPositionAware<FullMethodInvocationExpression>
 {
-    using System.Linq;
-    using Sprache;
-    using stl;
+    public ExpressionSyntax[] Arguments { get; set; }
 
-    public class FullMethodInvocationExpression : ExpressionSyntax, IPositionAware<FullMethodInvocationExpression>
+    public FullMethodInvocationExpression(IOption<ExpressionSyntax[]> args)
+        => this.Arguments = args.GetOrEmpty().ToArray();
+
+    public new FullMethodInvocationExpression SetPos(Position startPos, int length)
     {
-        public ExpressionSyntax[] Arguments { get; set; }
-
-        public FullMethodInvocationExpression(IOption<ExpressionSyntax[]> args)
-            => this.Arguments = args.GetOrEmpty().ToArray();
-
-        public new FullMethodInvocationExpression SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+        base.SetPos(startPos, length);
+        return this;
     }
 }

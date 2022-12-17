@@ -1,7 +1,6 @@
-namespace ishtar
-{
-    using System;
+namespace ishtar;
 
-    public class MethodHasExternException : Exception { }
-    public class MethodHasAbstractException : Exception { }
-}
+using System;
+
+public class MethodHasExternException : Exception { }
+public class MethodHasAbstractException : Exception { }

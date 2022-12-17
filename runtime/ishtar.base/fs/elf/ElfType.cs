@@ -1,13 +1,12 @@
-namespace vein.fs.elf
+namespace vein.fs.elf;
+
+public enum ElfType : ushort
 {
-    public enum ElfType : ushort
-    {
-        None = 0,
-        Relocatable = 1,
-        Executable = 2,
-        SharedObject = 3,
-        Core = 4,
-        LoProc = 5,
-        HiProc = 6
-    }
+    None = 0,
+    Relocatable = 1,
+    Executable = 2,
+    SharedObject = 3,
+    Core = 4,
+    LoProc = 5,
+    HiProc = 6
 }

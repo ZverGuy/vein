@@ -1,8 +1,7 @@
-namespace ishtar
+namespace ishtar;
+
+public struct ILLabel
 {
-    public struct ILLabel
-    {
-        public OpCodeValue opcode;
-        public int pos;
-    };
-}
+    public OpCodeValue opcode;
+    public int pos;
+};

@@ -1,10 +1,9 @@
-namespace ishtar
-{
-    using vein.runtime;
+namespace ishtar;
 
-    public static class RuntimeIshtarClassEx
-    {
-        public static RuntimeIshtarClass AsRuntimeClass(this VeinTypeCode code)
-            => (RuntimeIshtarClass)code.AsClass();
-    }
+using vein.runtime;
+
+public static class RuntimeIshtarClassEx
+{
+    public static RuntimeIshtarClass AsRuntimeClass(this VeinTypeCode code)
+        => (RuntimeIshtarClass)code.AsClass();
 }

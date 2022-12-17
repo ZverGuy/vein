@@ -1,13 +1,12 @@
-namespace vein.syntax
-{
-    using Sprache;
+namespace vein.syntax;
 
-    public abstract class ExpressionSettingSyntax : ExpressionSyntax, IPositionAware<ExpressionSettingSyntax>
+using Sprache;
+
+public abstract class ExpressionSettingSyntax : ExpressionSyntax, IPositionAware<ExpressionSettingSyntax>
+{
+    public new ExpressionSettingSyntax SetPos(Position startPos, int length)
     {
-        public new ExpressionSettingSyntax SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+        base.SetPos(startPos, length);
+        return this;
     }
 }

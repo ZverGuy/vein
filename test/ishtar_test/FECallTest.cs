@@ -1,30 +1,29 @@
-namespace ishtar_test
+namespace ishtar_test;
+
+using ishtar;
+using vein.runtime;
+using NUnit.Framework;
+
+[TestFixture]
+public class FECallTest : IshtarTestBase
 {
-    using ishtar;
-    using vein.runtime;
-    using NUnit.Framework;
-
-    [TestFixture]
-    public class FECallTest : IshtarTestBase
+    [Test]
+    [Parallelizable(ParallelScope.None)]
+    public void Call_FE_Console_Println()
     {
-        [Test]
-        [Parallelizable(ParallelScope.None)]
-        public void Call_FE_Console_Println()
+        using var ctx = CreateContext();
+        ctx.OnClassBuild((x, storage) =>
         {
-            using var ctx = CreateContext();
-            ctx.OnClassBuild((x, storage) =>
-            {
-                var type = x.Owner.FindType("std%global::vein/lang/Out", true);
+            var type = x.Owner.FindType("std%global::vein/lang/Out", true);
 
-                storage.method = type.FindMethod("@_println");
-            });
+            storage.method = type.FindMethod("@_println");
+        });
 
-            ctx.Execute((gen, storage) =>
-            {
-                gen.Emit(OpCodes.LDC_STR, "foo");
-                gen.Emit(OpCodes.CALL, (VeinMethod)storage.method);
-                gen.Emit(OpCodes.RET);
-            });
-        }
+        ctx.Execute((gen, storage) =>
+        {
+            gen.Emit(OpCodes.LDC_STR, "foo");
+            gen.Emit(OpCodes.CALL, (VeinMethod)storage.method);
+            gen.Emit(OpCodes.RET);
+        });
     }
 }

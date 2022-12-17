@@ -1,24 +1,23 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System.Collections.Generic;
+using System.Linq;
+
+public class MemberAccessSyntax : ExpressionSyntax
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    public IdentifierExpression MemberName { get; set; }
+    public IdentifierExpression[] MemberChain { get; set; }
 
-    public class MemberAccessSyntax : ExpressionSyntax
+    public override IEnumerable<BaseSyntax> ChildNodes => NoChildren;
+    public override SyntaxType Kind => SyntaxType.MemberAccessExpression;
+
+    public override string ExpressionString
     {
-        public IdentifierExpression MemberName { get; set; }
-        public IdentifierExpression[] MemberChain { get; set; }
-
-        public override IEnumerable<BaseSyntax> ChildNodes => NoChildren;
-        public override SyntaxType Kind => SyntaxType.MemberAccessExpression;
-
-        public override string ExpressionString
+        get
         {
-            get
-            {
-                if (MemberChain is null || MemberChain.Length == 0)
-                    return $"{MemberName}";
-                return $"{string.Join(".", MemberChain.Select(x => x.ExpressionString))}.{MemberName}";
-            }
+            if (MemberChain is null || MemberChain.Length == 0)
+                return $"{MemberName}";
+            return $"{string.Join(".", MemberChain.Select(x => x.ExpressionString))}.{MemberName}";
         }
     }
 }

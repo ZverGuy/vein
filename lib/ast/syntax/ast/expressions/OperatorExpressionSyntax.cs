@@ -1,13 +1,12 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System.Linq.Expressions;
+using stl;
+public class OperatorExpressionSyntax : ExpressionSyntax
 {
-    using System.Linq.Expressions;
-    using stl;
-    public class OperatorExpressionSyntax : ExpressionSyntax
-    {
-        public ExpressionType OperatorType { get; set; }
+    public ExpressionType OperatorType { get; set; }
 
-        public OperatorExpressionSyntax() { }
+    public OperatorExpressionSyntax() { }
 
-        public OperatorExpressionSyntax(ExpressionType exp) => this.OperatorType = exp;
-    }
+    public OperatorExpressionSyntax(ExpressionType exp) => this.OperatorType = exp;
 }

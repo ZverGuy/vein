@@ -1,22 +1,21 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using Sprache;
+
+public class AnonymousFunctionExpressionSyntax : ExpressionSyntax, IPositionAware<AnonymousFunctionExpressionSyntax>
 {
-    using Sprache;
+    public ExpressionSyntax Declaration { get; set; }
+    public ExpressionSyntax Body { get; set; }
 
-    public class AnonymousFunctionExpressionSyntax : ExpressionSyntax, IPositionAware<AnonymousFunctionExpressionSyntax>
+    public AnonymousFunctionExpressionSyntax(ExpressionSyntax dec, ExpressionSyntax body)
     {
-        public ExpressionSyntax Declaration { get; set; }
-        public ExpressionSyntax Body { get; set; }
+        this.Declaration = dec;
+        this.Body = body;
+    }
 
-        public AnonymousFunctionExpressionSyntax(ExpressionSyntax dec, ExpressionSyntax body)
-        {
-            this.Declaration = dec;
-            this.Body = body;
-        }
-
-        public new AnonymousFunctionExpressionSyntax SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+    public new AnonymousFunctionExpressionSyntax SetPos(Position startPos, int length)
+    {
+        base.SetPos(startPos, length);
+        return this;
     }
 }

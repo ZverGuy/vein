@@ -1,25 +1,24 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System.Collections.Generic;
+using Sprache;
+
+public class ChainAccessExpression : ExpressionSyntax, IPositionAware<ChainAccessExpression>
 {
-    using System.Collections.Generic;
-    using Sprache;
+    public ExpressionSyntax Start;
+    public IEnumerable<ExpressionSyntax> Other;
 
-    public class ChainAccessExpression : ExpressionSyntax, IPositionAware<ChainAccessExpression>
+    public ChainAccessExpression(ExpressionSyntax start, IEnumerable<ExpressionSyntax> other)
     {
-        public ExpressionSyntax Start;
-        public IEnumerable<ExpressionSyntax> Other;
+        this.Start = start;
+        this.Other = other;
+    }
 
-        public ChainAccessExpression(ExpressionSyntax start, IEnumerable<ExpressionSyntax> other)
-        {
-            this.Start = start;
-            this.Other = other;
-        }
+    public ChainAccessExpression(IEnumerable<ExpressionSyntax> arr) => this.Other = arr;
 
-        public ChainAccessExpression(IEnumerable<ExpressionSyntax> arr) => this.Other = arr;
-
-        public new ChainAccessExpression SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+    public new ChainAccessExpression SetPos(Position startPos, int length)
+    {
+        base.SetPos(startPos, length);
+        return this;
     }
 }

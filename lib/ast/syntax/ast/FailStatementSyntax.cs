@@ -1,15 +1,14 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System.Collections.Generic;
+
+public class FailStatementSyntax : StatementSyntax
 {
-    using System.Collections.Generic;
+    public FailStatementSyntax(ExpressionSyntax e) => Expression = e;
 
-    public class FailStatementSyntax : StatementSyntax
-    {
-        public FailStatementSyntax(ExpressionSyntax e) => Expression = e;
+    public override SyntaxType Kind => SyntaxType.FailStatement;
 
-        public override SyntaxType Kind => SyntaxType.FailStatement;
+    public override IEnumerable<BaseSyntax> ChildNodes => GetNodes(Expression);
 
-        public override IEnumerable<BaseSyntax> ChildNodes => GetNodes(Expression);
-
-        public ExpressionSyntax Expression { get; set; }
-    }
+    public ExpressionSyntax Expression { get; set; }
 }

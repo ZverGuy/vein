@@ -1,13 +1,12 @@
-namespace vein.syntax
-{
-    using Sprache;
+namespace vein.syntax;
 
-    public class EmptyStatementSyntax : StatementSyntax, IPositionAware<EmptyStatementSyntax>
+using Sprache;
+
+public class EmptyStatementSyntax : StatementSyntax, IPositionAware<EmptyStatementSyntax>
+{
+    public new EmptyStatementSyntax SetPos(Position startPos, int length)
     {
-        public new EmptyStatementSyntax SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+        base.SetPos(startPos, length);
+        return this;
     }
 }

@@ -1,14 +1,13 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using System.Collections.Generic;
+
+public class DeleteStatementSyntax : StatementSyntax
 {
-    using System.Collections.Generic;
+    public DeleteStatementSyntax(ExpressionSyntax e) => Expression = e;
+    public override SyntaxType Kind => SyntaxType.DeleteStatement;
 
-    public class DeleteStatementSyntax : StatementSyntax
-    {
-        public DeleteStatementSyntax(ExpressionSyntax e) => Expression = e;
-        public override SyntaxType Kind => SyntaxType.DeleteStatement;
+    public override IEnumerable<BaseSyntax> ChildNodes => GetNodes(Expression);
 
-        public override IEnumerable<BaseSyntax> ChildNodes => GetNodes(Expression);
-
-        public ExpressionSyntax Expression { get; set; }
-    }
+    public ExpressionSyntax Expression { get; set; }
 }

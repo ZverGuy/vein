@@ -1,12 +1,11 @@
-namespace ishtar.emit
+namespace ishtar.emit;
+
+public enum FlowControl
 {
-    public enum FlowControl
-    {
-        None,
-        Branch,
-        Break,
-        Call,
-        Return,
-        Throw
-    }
+    None,
+    Branch,
+    Break,
+    Call,
+    Return,
+    Throw
 }

@@ -1,8 +1,7 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+public enum DirectiveType
 {
-    public enum DirectiveType
-    {
-        Use,
-        Space
-    }
+    Use,
+    Space
 }

@@ -1,17 +1,16 @@
-namespace vein.syntax
+namespace vein.syntax;
+
+using Sprache;
+
+public class IsTypePatternExpression : ExpressionSyntax, IPositionAware<IsTypePatternExpression>
 {
-    using Sprache;
+    public TypeExpression Type { get; set; }
 
-    public class IsTypePatternExpression : ExpressionSyntax, IPositionAware<IsTypePatternExpression>
+    public IsTypePatternExpression(TypeExpression t) => this.Type = t;
+
+    public new IsTypePatternExpression SetPos(Position startPos, int length)
     {
-        public TypeExpression Type { get; set; }
-
-        public IsTypePatternExpression(TypeExpression t) => this.Type = t;
-
-        public new IsTypePatternExpression SetPos(Position startPos, int length)
-        {
-            base.SetPos(startPos, length);
-            return this;
-        }
+        base.SetPos(startPos, length);
+        return this;
     }
 }

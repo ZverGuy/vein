@@ -1,11 +1,10 @@
-namespace ishtar
-{
-    using System;
+namespace ishtar;
 
-    [Flags]
-    public enum GCFlags
-    {
-        NONE = 0,
-        IMMORTAL = 1 << 1,
-    }
+using System;
+
+[Flags]
+public enum GCFlags
+{
+    NONE = 0,
+    IMMORTAL = 1 << 1,
 }

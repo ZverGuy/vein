@@ -1,9 +1,8 @@
-namespace vein.reflection
-{
-    using System.Collections.Generic;
+namespace vein.reflection;
 
-    public interface IAspectable
-    {
-        List<Aspect> Aspects { get; }
-    }
+using System.Collections.Generic;
+
+public interface IAspectable
+{
+    List<Aspect> Aspects { get; }
 }

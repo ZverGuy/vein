@@ -18,8 +18,8 @@ public static class Bootstrapper
 
         #if MANAGED
         if (args.Contains("--managed-debug"))
-        while (!System.Diagnostics.Debugger.IsAttached)
-            Thread.Sleep(200);
+            while (!System.Diagnostics.Debugger.IsAttached)
+                Thread.Sleep(200);
         #endif
 
         IshtarCore.INIT();
@@ -45,7 +45,7 @@ public static class Bootstrapper
     }
 
 
-    public unsafe static int LoadEntryModule(string[] args, out RuntimeIshtarMethod entry_point, bool consoleEnable = false)
+    public static unsafe int LoadEntryModule(string[] args, out RuntimeIshtarMethod entry_point, bool consoleEnable = false)
     {
         var masterModule = default(IshtarAssembly);
         var resolver = default(AssemblyResolver);
@@ -63,7 +63,10 @@ public static class Bootstrapper
                 return -1;
             var entry = new FileInfo(args.First());
             if (!entry.Exists)
+            {
+                VM.println("no file");
                 return -2;
+            }
             AppVault.CurrentVault.WorkDirectory = entry.Directory;
             resolver = AppVault.CurrentVault.GetResolver();
             masterModule = IshtarAssembly.LoadFromFile(entry);

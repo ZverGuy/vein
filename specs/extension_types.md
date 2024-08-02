@@ -185,8 +185,8 @@ internal virtual Parser<ExtensionSyntax> ExtensionDeclaration =>
 
 ```vein
 explicit extension R for U {
-    void M2(): Void { } 
-    void M() {
+    public M2(): Void { } 
+    public M(): Void {
         M2();
     }
 }
@@ -196,7 +196,7 @@ explicit extension R for U {
 
 ```vein
 implicit extension V for W {
-    public M3(): Void { }
+     public M3(): Void { }
 }
 ```
 
